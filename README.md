@@ -1,6 +1,11 @@
 # Verifish
+Verifish is a security app designed to protect you from phishing scams by verifying the legitimacy of digital content and links.
 
-Verifish is a program designed to take well known or commonly used websites for phishing scams and generate fake domains using leetspeak. These fake domains are often used by phishers as their malicious website which are then blocked by Verifish as it uses the systems hosts or /etc/hosts file to block phishing.
+Phishing sites often use slight variations and leetspeak to mimic legitimate websites.
+
+Verifish detects these tricks by filtering and rejecting suspicious links, providing real-time alerts to keep you safe online.
+
+The name "Verifish" combines "Verify" and "Phishing," reflecting its mission to safeguard users from online threats.
 
 
 # Installation

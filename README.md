@@ -26,7 +26,7 @@ To run the program on MacOS, simply run the program in terminal with sudo privil
 sudo python main.py
 ```
 
-# Attribute
+# Attributes
 
 Wordlists were taken from the following:
 

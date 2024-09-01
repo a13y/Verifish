@@ -453,7 +453,7 @@ print('generating fake domains...')
 website_list = convert_to_leetspeak(wordlist)
 
 final_list = remove_words_from_list(website_list, wordlist)
-
+final_list = list(set(final_list))
 
 for domain in final_list:
     hosts_content += '\n0.0.0.0   ' + domain 

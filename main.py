@@ -10,6 +10,7 @@
 #
 # default list taken from: URLchecker https://github.com/bensooter/URLchecker/tree/master
 # csv list taken from: Open PageRank https://www.domcop.com/openpagerank/what-is-openpagerank
+#==============================
 
 
 
@@ -363,9 +364,8 @@ def remove_words_from_list(big_list, small_list):
     small_set = set(small_list)
     # Compute the difference between the sets
     result_set = big_set - small_set
-    # Convert the result back to a list
-    filtered_list = list(result_set)
-    return filtered_list
+    
+    return list(result_set)
 
 # replace the designated text in a text file
 def replace_text_between_markers(file_path, new_content, start_marker='----start----', end_marker='-----end-----'):
@@ -387,11 +387,7 @@ def replace_text_between_markers(file_path, new_content, start_marker='----start
         raise ValueError("Start or end marker not found in the file.")
     
     # Replace content between markers
-    updated_lines = (
-        lines[:start_index + 1]  # Include the start marker
-        + [new_content + '\n']   # Add new content
-        + lines[end_index:]      # Include the end marker and everything after
-    )
+    updated_lines = (lines[:start_index + 1] + [new_content + '\n'] + lines[end_index:])
     
     # Write updated content back to the file
     with open(file_path, 'w') as file:
@@ -439,7 +435,6 @@ with open('domain.csv', 'r') as csv_file:
     for row in csv_reader:
         # Append the first column value to the list
         if row:  # Check if the row is not empty
-            print(row)
             first_column_list.append(row[1])
 
 

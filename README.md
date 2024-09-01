@@ -22,7 +22,9 @@ sudo python main.py
 
 ## MacOS
 To run the program on MacOS, simply run the program in terminal with sudo priviledges to allow it write access to the /etc/hosts file.
-
+```
+sudo python main.py
+```
 
 # Attribute
 

@@ -507,7 +507,7 @@ print(f'Original wordlist:    {len(wordlist)}')
 print(f'Generation ratio:     {len(final_list)/len(wordlist):.2f}')
 
 # time stats
-print('\n\n--------------------Time taken stats-------------------\n\n-')
+print('\n\n--------------------Time taken stats--------------------\n\n')
 print(f'Total time taken:     {total_hours} h {total_minutes} m {total_seconds:.2f} s')
 print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')

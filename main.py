@@ -421,7 +421,7 @@ with open('wordlist.txt', 'r') as file:
     lines = file.readlines()
     
     # Strip leading/trailing whitespace from each line and add to the list
-    domain_list = [line.strip() for line in lines]
+    file_list = [line.strip() for line in lines]
 
 
 with open('domain.csv', 'r') as csv_file:
@@ -435,7 +435,7 @@ with open('domain.csv', 'r') as csv_file:
             first_column_list.append(row[1])
 
 
-file_list = domain_list
+
 
 # put all lists together
 wordlist += file_list + first_column_list

@@ -437,24 +437,32 @@ with open('domain.csv', 'r') as csv_file:
 
 file_list = domain_list
 
-wordlist = wordlist + file_list + first_column_list
+# put all lists together
+wordlist += file_list + first_column_list
 
-wordlist = add_www(wordlist) + add_sg(wordlist) + wordlist
+# create www. and .sg versions of all websites and put them with the list
+wordlist += add_www(wordlist) + add_sg(wordlist)
 
+
+# remove duplicates
 wordlist = list(set(wordlist))
 
-#take loading wordlist time
+# take loading wordlist time
 load_wordlist_time = time.time()
 
 
 print('generating fake domains...')
 
-
+# convert the list to leepseak
 website_list = convert_to_leetspeak(wordlist)
 
+# remove the legitimate websites from the final fake domain list
 final_list = remove_words_from_list(website_list, wordlist)
+
+# remove duplicates
 final_list = list(set(final_list))
 
+# add the 0.0.0.0 ip address to each domain name to point it to nowhere
 for domain in final_list:
     hosts_content += '\n0.0.0.0   ' + domain 
 
@@ -463,13 +471,11 @@ generate_fake_domains = time.time()
 print('writing to file...')
 
 # start writing into hosts file
-
 try:
     replace_text_between_markers('/etc/hosts', hosts_content)
 
 except ValueError:
-    original_hosts = open('/etc/hosts', 'r').read()
-    new_hosts = original_hosts + '\n\n\n----start----\n\n' +  hosts_content + '\n\n\n-----end-----\n\n'
+    new_hosts = open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  hosts_content + '\n\n\n-----end-----\n\n'
     open('/etc/hosts', 'w').write(new_hosts)
 
 
@@ -490,7 +496,7 @@ write_file_time = end_time - generate_fake_domains
 
 # display stats and first 10 domains
 for i in range(len(final_list)):
-    print(domain)
+    print(final_list[i])
     if i > 9:
         break
 
@@ -502,6 +508,7 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
+
 
 
 

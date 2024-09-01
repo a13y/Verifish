@@ -345,14 +345,23 @@ def generate_leet_variations(word):
     
     # Generate all combinations of these options
     variations = [''.join(combination) for combination in product(*options)]
-    return variations
+    return variation
 
 
 # convert wordlist to leetspeak
 def convert_to_leetspeak(wordlist):
     all_variations = []
     for word in wordlist:
-        all_variations.extend(generate_leet_variations(word))
+        options = []
+        for char in word:
+            if char in leet_dict:
+                options.append([char, leet_dict[char]])
+            else:
+                options.append([char])
+
+        #generate all combinations of these options
+
+        all_variations.extend([''.join(combination) for combination in product(*options)])
     return all_variations
 
 
@@ -430,7 +439,7 @@ with open('domain.csv', 'r') as csv_file:
     
     # Iterate over each row in the CSV
     for row in csv_reader:
-        # Append the first column value to the list
+        # Append the second column value to the list
         if row:  # Check if the row is not empty
             first_column_list.append(row[1])
 
@@ -513,6 +522,5 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
-
 
 

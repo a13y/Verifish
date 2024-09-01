@@ -472,8 +472,8 @@ final_list = remove_words_from_list(website_list, wordlist)
 final_list = list(set(final_list))
 
 # add the 0.0.0.0 ip address to each domain name to point it to nowhere
-for domain in final_list:
-    hosts_content += '\n0.0.0.0   ' + domain 
+for i in range(len(final_list)):
+    final_list[i] = '\n0.0.0.0   ' + final_list[i]
 
 # get the time taken to generate fake domain names
 generate_fake_domains = time.time()
@@ -522,5 +522,7 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
+
+
 
 

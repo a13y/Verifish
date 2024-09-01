@@ -405,7 +405,7 @@ def add_sg(url_list):
     for url in url_list:
         if url.endswith('.com'):
             new_list.append(url)
-            new_list.append(url.replace('.com', '.com.sg'))
+            new_list.append(url + '.sg')
         else:
             new_list.append(url)
     return new_list

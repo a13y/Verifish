@@ -13,16 +13,15 @@
 #==============================
 
 
-
+# import modules
 import csv
 import time
 from itertools import product
 
-
+# start time of the program
 start_time = time.time()
 
 # variables
-
 # built-in wordlist
 wordlist = [
 'twitter.com',
@@ -348,6 +347,7 @@ def generate_leet_variations(word):
     variations = [''.join(combination) for combination in product(*options)]
     return variations
 
+
 # convert wordlist to leetspeak
 def convert_to_leetspeak(wordlist):
     all_variations = []
@@ -358,11 +358,9 @@ def convert_to_leetspeak(wordlist):
 
 # removes a small list from a big list
 def remove_words_from_list(big_list, small_list):
-    # Convert lists to sets
-    big_set = set(big_list)
-    small_set = set(small_list)
+
     # Compute the difference between the sets
-    result_set = big_set - small_set
+    result_set = set(big_list) - set(small_list)
     
     return list(result_set)
 
@@ -374,7 +372,7 @@ def replace_text_between_markers(file_path, new_content, start_marker='----start
     start_index = None
     end_index = None
     
-    # Find indices of start and end markers
+    # find indices of start and end markers
     for i, line in enumerate(lines):
         if start_marker in line:
             start_index = i
@@ -504,5 +502,6 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
+
 
 

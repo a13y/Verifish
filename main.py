@@ -542,6 +542,3 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
-
-
-

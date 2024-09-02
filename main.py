@@ -478,7 +478,7 @@ final_list = list(set(final_list))
 
 # add the 0.0.0.0 ip address to each domain name to point it to nowhere
 for i in range(len(final_list)):
-    final_list[i] = '\n0.0.0.0   ' + final_list[i]
+    final_list[i] = '\n0.0.0.0 ' + final_list[i]
 
 # get the time taken to generate fake domain names
 generate_fake_domains = time.time()

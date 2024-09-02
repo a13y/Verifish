@@ -1,11 +1,7 @@
 # Verifish
 ![alt text](verifish.png)
 
-Verifish is a security app designed to protect you from phishing scams by verifying the legitimacy of digital content and links.
-
-Phishing sites often use slight variations and leetspeak to mimic legitimate websites.
-
-Verifish detects these tricks by filtering and rejecting suspicious links, providing real-time alerts to keep you safe online.
+Verifish is a security app designed to protect you from phishing scams by verifying the legitimacy of digital content and links. Phishing sites often use slight variations and leetspeak to mimic legitimate websites. Verifish detects these tricks by filtering and rejecting suspicious links, providing real-time alerts to keep you safe online.
 
 The name "Verifish" combines "Verify" and "Phishing," reflecting its mission to safeguard users from online threats.
 
@@ -30,7 +26,7 @@ sudo python main.py
 ## MacOS
 To run the program on MacOS, simply run the program in terminal with sudo priviledges to allow it write access to the /etc/hosts file.
 ```
-sudo python main.py
+sudo python3 main.py
 ```
 
 # Attributes

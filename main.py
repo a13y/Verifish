@@ -333,6 +333,7 @@ hosts_content = ''
 
 
 # leetspeak variations
+# list  options
 def generate_leet_variations(word):
     options = []
     for char in word:

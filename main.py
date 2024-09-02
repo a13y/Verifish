@@ -411,7 +411,7 @@ def replace_text_between_markers(file_path, lines_to_insert, start_marker='----s
         # Write content before the start marker
         file.writelines(lines[:start_index + 1])
         # Write new content
-        file.write(''.join(lines_to_insert) + '\n')
+        file.writelines(lines_to_insert)
         # Write content after the end marker
         file.writelines(lines[end_index + 1:])
 
@@ -481,7 +481,7 @@ load_wordlist_time = time.time()
 
 print('generating fake domains...')
 
-# convert the list to leepseak
+# convert the list to leetspeak
 website_list = list(set(convert_to_leetspeak(wordlist, leet_dict)))
 
 # remove the legitimate websites from the final fake domain list
@@ -503,7 +503,7 @@ try:
     replace_text_between_markers('/etc/hosts', website_list)
 
 except ValueError:
-    open('/etc/hosts', 'w').write(open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  ''.join(website_list) + '\n\n\n-----end-----\n\n')
+    open('/etc/hosts', 'a').write('\n\n\n----start----\n\n' +  ''.join(website_list) + '\n\n\n-----end-----\n\n')
     print('writing to file...')
 
 

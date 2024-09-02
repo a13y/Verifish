@@ -510,11 +510,11 @@ write_file_time = end_time - generate_fake_domains
 # display stats and first 10 domains
 print('\n\n\n--------------------first ten fake domains generated--------------------\n\n')
 for i in range(len(final_list)):
-    print(final_list[i])
+    print(final_list[i], end='')
     if i > 9:
         break
 # URL generation stats
-print('\n\n--------------------URL generation stats--------------------\n\n')
+print('\n\n\n--------------------URL generation stats--------------------\n\n')
 print(f'URLs generated:       {len(final_list)}')
 print(f'Original wordlist:    {len(wordlist)}')
 print(f'Generation ratio:     {len(final_list)/len(wordlist):.2f}')

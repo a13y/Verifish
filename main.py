@@ -315,7 +315,7 @@ wordlist = [
 # leetspeak dictionary
 leet_dict = {
         'A': '4', 'a': '4',
-        'A': '@', 'a': '@'
+        'A': '@', 'a': '@',
         'B': '8', 'b': '8',
         'E': '3', 'e': '3',
         'G': '9', 'g': '9',

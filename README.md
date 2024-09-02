@@ -1,4 +1,6 @@
 # Verifish
+![alt text](verifish.png)
+
 Verifish is a security app designed to protect you from phishing scams by verifying the legitimacy of digital content and links.
 
 Phishing sites often use slight variations and leetspeak to mimic legitimate websites.

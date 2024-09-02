@@ -374,7 +374,6 @@ def remove_words_from_list(big_list, small_list):
     
     return list(result_set)
 
-# replace the designated text in a text file
 def replace_text_between_markers(file_path, new_content, start_marker='----start----', end_marker='-----end-----'):
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -382,7 +381,7 @@ def replace_text_between_markers(file_path, new_content, start_marker='----start
     start_index = None
     end_index = None
     
-    # find indices of start and end markers
+    # Find indices of start and end markers
     for i, line in enumerate(lines):
         if start_marker in line:
             start_index = i
@@ -390,15 +389,20 @@ def replace_text_between_markers(file_path, new_content, start_marker='----start
             end_index = i
             break
     
-    if start_index is None or end_index is None:
-        raise ValueError("Start or end marker not found in the file.")
+    if start_index is None:
+        raise ValueError(f"Start marker '{start_marker}' not found in the file.")
+    if end_index is None:
+        raise ValueError(f"End marker '{end_marker}' not found in the file.")
+    
+    # If the end marker is before the start marker, raise an error
+    if end_index <= start_index:
+        raise ValueError("End marker must come after the start marker.")
     
     # Replace content between markers
-    updated_lines = (lines[:start_index + 1] + [new_content + '\n'] + lines[end_index:])
-    
     # Write updated content back to the file
-    with open(file_path, 'w') as file:
-        file.writelines(updated_lines)
+    open(file_path, 'w').write(''.join(lines[:start_index + 1]) + ''.join(new_content) + ''.join(lines[end_index + 1:]))
+
+
 
 # add the .sg to the urls if not present
 def add_sg(url_list):
@@ -482,11 +486,10 @@ print('writing to file...')
 
 # start writing into hosts file
 try:
-    replace_text_between_markers('/etc/hosts', hosts_content)
+    replace_text_between_markers('/etc/hosts', final_list)
 
 except ValueError:
-    new_hosts = open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  hosts_content + '\n\n\n-----end-----\n\n'
-    open('/etc/hosts', 'w').write(new_hosts)
+    open('/etc/hosts', 'w').write(open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  ''.join(final_list) + '\n\n\n-----end-----\n\n')
 
 
 # get the time to write the data to the /etc/hosts file
@@ -523,7 +526,6 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
-
 
 
 

@@ -315,16 +315,19 @@ wordlist = [
 # leetspeak dictionary
 leet_dict = {
         'A': '4', 'a': '4',
-        'A': '@', 'a': '@',
-        'B': '8', 'b': '8',
+        'B': '8', 'b': '6',
         'E': '3', 'e': '3',
         'G': '9', 'g': '9',
         'I': '1', 'i': '1',
         'O': '0', 'o': '0',
         'S': '5', 's': '5',
-        'S': '$', 's': '$',
-        'T': '7', 't': '7'
+        'T': '7', 't': '7',
+        'g': '9', 'q': '9',
+        'z': '2', 'Z': '2',
+        'l': '!', '1': '!',
+        'G': '6', '0': '()'
 }
+
 
 # other variables
 csv_list = []
@@ -336,12 +339,12 @@ hosts_content = ''
 
 # leetspeak variations
 # list  options
-def generate_leet_variations(word):
+def generate_leet_variations(word, leets):
     options = []
     for char in word:
-        if char in leet_dict:
+        if char in leets:
             # Add both the leet version and the original character
-            options.append([char, leet_dict[char]])
+            options.append([char, leets[char]])
         else:
             # Add only the original character
             options.append([char])
@@ -352,13 +355,13 @@ def generate_leet_variations(word):
 
 
 # convert wordlist to leetspeak
-def convert_to_leetspeak(wordlist):
+def convert_to_leetspeak(given_list, leets):
     all_variations = []
-    for word in wordlist:
+    for word in given_list:
         options = []
         for char in word:
-            if char in leet_dict:
-                options.append([char, leet_dict[char]])
+            if char in leets:
+                options.append([char, leets[char]])
             else:
                 options.append([char])
 
@@ -376,7 +379,9 @@ def remove_words_from_list(big_list, small_list):
     
     return list(result_set)
 
-def replace_text_between_markers(file_path, new_content, start_marker='----start----', end_marker='-----end-----'):
+def replace_text_between_markers(file_path, lines_to_insert, start_marker='----start----', end_marker='-----end-----'):
+    # Convert the list of lines to a single string with newline characters
+    
     with open(file_path, 'r') as file:
         lines = file.readlines()
     
@@ -400,10 +405,16 @@ def replace_text_between_markers(file_path, new_content, start_marker='----start
     if end_index <= start_index:
         raise ValueError("End marker must come after the start marker.")
     
-    # Replace content between markers
     # Write updated content back to the file
-    print('writing to file...')
-    open(file_path, 'w').write(''.join(lines[:start_index + 1]) + ''.join(new_content) + ''.join(lines[end_index + 1:]))
+    print('Writing to file...')
+    with open(file_path, 'w') as file:
+        # Write content before the start marker
+        file.writelines(lines[:start_index + 1])
+        # Write new content
+        file.write(''.join(lines_to_insert) + '\n')
+        # Write content after the end marker
+        file.writelines(lines[end_index + 1:])
+
 
 
 
@@ -471,17 +482,17 @@ load_wordlist_time = time.time()
 print('generating fake domains...')
 
 # convert the list to leepseak
-website_list = convert_to_leetspeak(wordlist)
+website_list = list(set(convert_to_leetspeak(wordlist, leet_dict)))
 
 # remove the legitimate websites from the final fake domain list
-final_list = remove_words_from_list(website_list, wordlist)
+website_list = remove_words_from_list(website_list, wordlist)
 
 # remove duplicates
-final_list = list(set(final_list))
+website_list = list(set(website_list))
 
 # add the 0.0.0.0 ip address to each domain name to point it to nowhere
-for i in range(len(final_list)):
-    final_list[i] = '\n0.0.0.0 ' + final_list[i]
+for i in range(len(website_list)):
+    website_list[i] = '\n0.0.0.0 ' + website_list[i]
 
 # get the time taken to generate fake domain names
 generate_fake_domains = time.time()
@@ -489,10 +500,10 @@ generate_fake_domains = time.time()
 
 # start writing into hosts file
 try:
-    replace_text_between_markers('/etc/hosts', final_list)
+    replace_text_between_markers('/etc/hosts', website_list)
 
 except ValueError:
-    open('/etc/hosts', 'w').write(open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  ''.join(final_list) + '\n\n\n-----end-----\n\n')
+    open('/etc/hosts', 'w').write(open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  ''.join(website_list) + '\n\n\n-----end-----\n\n')
     print('writing to file...')
 
 
@@ -513,16 +524,16 @@ write_file_time = end_time - generate_fake_domains
 
 # display stats and first 10 domains
 print('\n\n--------------------first ten fake domains generated--------------------\n')
-for i in range(len(final_list)):
-    print(final_list[i], end='')
+for i in range(len(website_list)):
+    print(website_list[i], end='')
     if i > 9:
         break
 # URL generation stats
 print('\n\n\n--------------------URL generation stats--------------------\n\n')
-print(f'URLs generated:       {len(final_list)}')
+print(f'URLs generated:       {len(website_list)}')
 print(f'Original wordlist:    {len(wordlist)}')
-print(f'Generation ratio:     {len(final_list)/len(wordlist):.2f}')
-print(f'Space taken up:       {len(''.join(final_list))/1000000:.2f} MB/{len(''.join(final_list))/1048576:.2f} MiB')
+print(f'Generation ratio:     {len(website_list)/len(wordlist):.2f}')
+print(f'Space taken up:       {len("".join(website_list))/1000000:.2f} MB/{len("".join(website_list))/1048576:.2f} MiB')
 
 # time stats
 print('\n\n--------------------Time taken stats--------------------\n\n')

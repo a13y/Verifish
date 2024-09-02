@@ -400,6 +400,7 @@ def replace_text_between_markers(file_path, new_content, start_marker='----start
     
     # Replace content between markers
     # Write updated content back to the file
+    print('writing to file...')
     open(file_path, 'w').write(''.join(lines[:start_index + 1]) + ''.join(new_content) + ''.join(lines[end_index + 1:]))
 
 
@@ -482,7 +483,7 @@ for i in range(len(final_list)):
 
 # get the time taken to generate fake domain names
 generate_fake_domains = time.time()
-print('writing to file...')
+
 
 # start writing into hosts file
 try:
@@ -490,6 +491,7 @@ try:
 
 except ValueError:
     open('/etc/hosts', 'w').write(open('/etc/hosts', 'r').read() + '\n\n\n----start----\n\n' +  ''.join(final_list) + '\n\n\n-----end-----\n\n')
+    print('writing to file...')
 
 
 # get the time to write the data to the /etc/hosts file
@@ -508,7 +510,7 @@ write_file_time = end_time - generate_fake_domains
 
 
 # display stats and first 10 domains
-print('\n\n\n--------------------first ten fake domains generated--------------------\n\n')
+print('\n\n--------------------first ten fake domains generated--------------------\n')
 for i in range(len(final_list)):
     print(final_list[i], end='')
     if i > 9:
@@ -518,6 +520,7 @@ print('\n\n\n--------------------URL generation stats--------------------\n\n')
 print(f'URLs generated:       {len(final_list)}')
 print(f'Original wordlist:    {len(wordlist)}')
 print(f'Generation ratio:     {len(final_list)/len(wordlist):.2f}')
+print(f'Space taken up:       {len(''.join(final_list))/1000000:.2f} MB')
 
 # time stats
 print('\n\n--------------------Time taken stats--------------------\n\n')

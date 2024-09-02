@@ -520,7 +520,7 @@ print('\n\n\n--------------------URL generation stats--------------------\n\n')
 print(f'URLs generated:       {len(final_list)}')
 print(f'Original wordlist:    {len(wordlist)}')
 print(f'Generation ratio:     {len(final_list)/len(wordlist):.2f}')
-print(f'Space taken up:       {len(''.join(final_list))/1000000:.2f} MB')
+print(f'Space taken up:       {len(''.join(final_list))/1000000:.2f} MB/{len(''.join(final_list))/1048576:.2f} MiB')
 
 # time stats
 print('\n\n--------------------Time taken stats--------------------\n\n')

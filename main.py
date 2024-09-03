@@ -378,7 +378,7 @@ def remove_words_from_list(big_list, small_list):
     
     return list(result_set)
 
-def replace_text_between_markers(file_path, lines_to_insert, start_marker='----start----', end_marker='-----end-----'):
+def replace_text_between_markers(file_path, lines_to_insert, blacklist ,start_marker='----start----', end_marker='-----end-----'):
     # Convert the list of lines to a single string with newline characters
     
     with open(file_path, 'r') as file:
@@ -411,6 +411,7 @@ def replace_text_between_markers(file_path, lines_to_insert, start_marker='----s
         file.writelines(lines[:start_index + 1])
         # Write new content
         file.writelines(lines_to_insert)
+        file.writelines(blacklist)
         # Write content after the end marker
         file.writelines(lines[end_index + 1:])
 
@@ -450,6 +451,13 @@ with open('wordlist.txt', 'r') as file:
     # Strip leading/trailing whitespace from each line and add to the list
     file_list = [line.strip() for line in lines]
 
+with open('blacklist.txt', 'r') as file:
+    line = file.readlines()
+
+
+    blacklist = [line.strip() for line in lines]
+
+
 
 with open('domain.csv', 'r') as csv_file:
     # Create a CSV reader object
@@ -460,9 +468,6 @@ with open('domain.csv', 'r') as csv_file:
         # Append the second column value to the list
         if row:  # Check if the row is not empty
             first_column_list.append(row[1])
-
-
-
 
 # put all lists together
 wordlist += file_list + first_column_list
@@ -493,16 +498,18 @@ website_list = list(set(website_list))
 for i in range(len(website_list)):
     website_list[i] = '\n0.0.0.0 ' + website_list[i]
 
+for i in range(len(blacklist)):
+    blacklist[i] = '\n0.0.0.0 ' + blacklist[i]
 # get the time taken to generate fake domain names
 generate_fake_domains = time.time()
 
 
 # start writing into hosts file
 try:
-    replace_text_between_markers('/etc/hosts', website_list)
+    replace_text_between_markers('/etc/hosts', website_list, blacklist)
 
 except ValueError:
-    open('/etc/hosts', 'a').write('\n\n\n----start----\n\n' +  ''.join(website_list) + '\n\n\n-----end-----\n\n')
+    open('/etc/hosts', 'a').write('\n\n\n----start----\n\n' +  ''.join(website_list) + blacklist + '\n\n\n-----end-----\n\n')
     print('writing to file...')
 
 
@@ -541,3 +548,6 @@ print(f'initial loading:      {var_func_time:.2f} s')
 print(f'wordlist generation:  {wordlist_time:.2f} s')
 print(f'fake url generation:  {fake_domains_time:.2f} s')
 print(f'time writing to file: {write_file_time:.2f} s')
+
+
+

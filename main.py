@@ -1,4 +1,5 @@
 #==============================
+
 # Verifish
 #
 # Verifish is a Python program that takes a list of genuine domain names and
@@ -454,10 +455,12 @@ with open('wordlist.txt', 'r') as file:
 with open('blacklist.txt', 'r') as file:
     line = file.readlines()
 
-
     blacklist = [line.strip() for line in lines]
 
+with open('bypasslist.txt', 'r') as file:
+    line = file.readlines()
 
+    bypasslist = [line.strip() for line in lines]
 
 with open('domain.csv', 'r') as csv_file:
     # Create a CSV reader object
@@ -494,6 +497,10 @@ website_list = remove_words_from_list(website_list, wordlist)
 # remove duplicates
 website_list = list(set(website_list))
 
+
+# bypass domain names in bypasslist.txt
+website_list = list(set(website_list) - set(bypasslist))
+
 # add the 0.0.0.0 ip address to each domain name to point it to nowhere
 for i in range(len(website_list)):
     website_list[i] = '\n0.0.0.0 ' + website_list[i]
@@ -509,7 +516,7 @@ try:
     replace_text_between_markers('/etc/hosts', website_list, blacklist)
 
 except ValueError:
-    open('/etc/hosts', 'a').write('\n\n\n----start----\n\n' +  ''.join(website_list) + blacklist + '\n\n\n-----end-----\n\n')
+    open('/etc/hosts', 'a').write('\n\n\n----start----\n\n' +  ''.join(website_list) + ''.join(blacklist) + '\n\n\n-----end-----\n\n')
     print('writing to file...')
 
 
